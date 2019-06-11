@@ -28,7 +28,7 @@ app.post("/captcha", (req, res) => {
   }
 
   // Secret Key
-  const secretKey = "";
+  const secretKey = process.env.RECAPTCHA_SECRET;
 
   // Verify URL
   const verifyUrl = `https://google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req
