@@ -19,12 +19,46 @@
                 <input type="text" name="name" id="name" class="form-control" />
             </div>
             <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" name="email" id="email" class="form-control" />
+            </div>
+            <div class="form-group">
                 <div class="g-recaptcha" data-sitekey="6LfJKqgUAAAAAMSuJaSI6T7XhEYK413uAlzbX1Iz"></div>
             </div>
 
             <input type="submit" value="Submit" class="btn btn-primary" />
         </form>
     </div>
+
+    <script>
+        document.getElementById('recaptcha-test-form').addEventListener('submit', submitForm);
+
+        function submitForm(e) {
+            e.preventDefault();
+
+            const name = document.querySelector('#name').value;
+            const email = document.querySelector('#email').value;
+            const captcha = document.querySelector('#g-recaptcha-response')
+                .value; // this id is not included in the above div for recaptcha but, it is a part of the api
+
+            fetch('/recaptcha', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json, text/plain',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(({
+                        name,
+                        email,
+                        captcha
+                    }))
+                })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                })
+        }
+    </script>
 </body>
 
 </html>
